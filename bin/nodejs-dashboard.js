@@ -34,6 +34,10 @@ program.option("-s, --scrollback [count]",
  "Maximum scroll history for log windows",
 config.SCROLLBACK);
 
+program.option("--statuspattern [pattern]",
+ "Regex pattern for status line",
+config.STATUS_PATTERN);
+
 program.version(pkg.version);
 program.usage("[options] -- [node] [script] [arguments]");
 program.parse(process.argv);
@@ -67,7 +71,8 @@ var dashboard = new Dashboard({
   appName: appName,
   program: program,
   scrollback: program.scrollback,
-  interleave: program.interleave
+  interleave: program.interleave,
+  statusPattern: program.statuspattern
 });
 
 server.on("connection", function (socket) {

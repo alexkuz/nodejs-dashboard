@@ -99,6 +99,7 @@ Options:
   -r, --refreshinterval [ms] Metrics refresh interval, default 1000ms
   -V, --version              output the version number
   -s, --scrollback [count]   Maximum scroll history for log windows
+  --statuspattern [pattern]  Regex pattern for status line
 ```
 
 #####`--port`
@@ -112,5 +113,19 @@ This tunes the minimum threshold for reporting event loop delays. The default va
 
 #####`--scrollback`
 Specifies the maximum number of lines that log windows (e.g. stdout, stderr) will buffer in order to scroll backwards and see the history. The default is 1000 lines.
+
+#####`--statuspattern`
+If this option is set, any line from stdout or stderr that matches regex pattern will be shown in 'status' box below log windows. For example, `--statuspattern "^\[STATUS\] (.*)"` will match a line `[STATUS] Progress: 50%` and `Progress: 50%` will be shown in status box.
+If you use webpack, you can use this option for tracking build progress:
+```js
+plugins: [
+  new webpack.ProgressPlugin((progress, message) => {
+    process.stdout.write(`[STATUS] [${(100 * progress).toFixed(2)}%] ${message}\n`);
+  });
+]
+```
+```
+nodejs-dashboard --statuspattern '^\[STATUS\](.*)' -- node -r nodejs-dashboard ./node_modules/.bin/webpack-dev-server
+```
 
 To gracefully exit and terminate the spawned process use one of:  `Ctrl + C`, `Q`, or `ESC`.

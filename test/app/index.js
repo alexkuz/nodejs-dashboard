@@ -24,6 +24,14 @@ setInterval(function () {
 }, 1000);
 
 setInterval(function () {
+  console.log("[STATUS]  Progress: %d.", count);
+}, 2000);
+
+setInterval(function () {
+  console.error("[STATUS]  [ERROR] Something wrong!");
+}, 5000);
+
+setInterval(function () {
   console.log("Slow call started...");
   var duration = slowFunc(_.random(1000, 100000));
   console.log("Completed in: ", duration);
